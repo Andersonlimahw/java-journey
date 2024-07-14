@@ -11,19 +11,20 @@ import com.lemon.planner.trip.Trip;
 @Service
 public class ParticipantService {
 
-//    @Autowired
-//    private ParticipantRepository repository;
+    @Autowired
+    private ParticipantRepository repository;
 
-    public void registerParticipantsToEvent(List<String> participantsToInvite, Trip trip){
+    public List<Participant>  registerParticipantsToEvent(List<String> participantsToInvite, Trip trip){
         List<Participant> participants = participantsToInvite.stream().map(email -> new Participant(email, trip)).toList();
-//        this.repository.saveAll(participants);
+        this.repository.saveAll(participants);
 
         System.out.println(participants.get(0).getId());
+        return this.repository.findAll();
     }
 
     public ParticipantCreateResponse registerParticipantToEvent(String email, Trip trip){
         Participant newParticipant = new Participant(email, trip);
-//        this.repository.save(newParticipant);
+        this.repository.save(newParticipant);
 
         return new ParticipantCreateResponse(newParticipant.getId());
     }

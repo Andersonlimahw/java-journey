@@ -1,5 +1,6 @@
 package com.lemon.planner.trip;
 
+import com.lemon.planner.participant.Participant;
 import com.lemon.planner.participant.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,8 @@ public class TripController {
 
         Trip trip = new Trip(payload);
         this.repository.save(trip);
-        this.participantService.registerParticipantsToEvent(payload.emails_to_invite(), trip);
-        TripCreateResponse response = new TripCreateResponse(trip.getId());
+        List<Participant> participants = this.participantService.registerParticipantsToEvent(payload.emails_to_invite(), trip);
+        TripCreateResponse response = new TripCreateResponse(trip.getId(), participants);
         return ResponseEntity.ok(response);
     }
 
