@@ -3,10 +3,11 @@ package com.lemon.planner.trip;
 import com.lemon.planner.participant.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/trips")
@@ -26,5 +27,17 @@ public class TripController {
         this.participantService.registerParticipantsToEvent(payload.emails_to_invite(), trip);
         TripCreateResponse response = new TripCreateResponse(trip.getId());
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<Trip>> list() {
+        List<Trip> trips = this.repository.findAll();
+        return ResponseEntity.ok(trips);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Trip> getTripById(@PathVariable UUID id) {
+        Optional<Trip> trip = this.repository.findById(id);
+        return trip.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
