@@ -1,9 +1,6 @@
 package com.lemon.planner.trip;
 
-import com.lemon.planner.participant.Participant;
-import com.lemon.planner.participant.ParticipantCreateResponse;
-import com.lemon.planner.participant.ParticipantRequestPayload;
-import com.lemon.planner.participant.ParticipantService;
+import com.lemon.planner.participant.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -89,5 +86,11 @@ public class TripController {
             return ResponseEntity.ok(participantId);
         }
         return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("/{id}/participants")
+    public ResponseEntity<List<ParticipantData>> getParticipants(@PathVariable UUID id) {
+        List<ParticipantData> participants = this.participantService.getAllParticipantsFromEvent(id);
+        return ResponseEntity.ok(participants);
     }
 }
