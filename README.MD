@@ -57,6 +57,19 @@ Java Journey is a demo project for Spring Boot, designed to showcase the capabil
    mvn spring-boot:run
     ```
 
+5. Debug the application:
+   ```
+   mvn clean spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+   ```
+6. Depois, no IntelliJ:
+   1. Vá em Run > Edit Configurations
+   2. Clique em +
+   3. Escolha Remote JVM Debug
+   4. Configure:
+      * Host: localhost
+      * Port: 5005
+   5. Clique em Debug
+
 ## Database
 [H2 Database](https://www.h2database.com/)
 
